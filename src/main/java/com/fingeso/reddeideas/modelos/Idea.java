@@ -11,6 +11,7 @@ public class Idea {
 	public String id;
 	public String numeroVotos;
 	public String descripcion;
+	public String titulo;
 
 	public String getId(){
 		return this.id;
@@ -34,5 +35,13 @@ public class Idea {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;		
+	}
+
+	public String getTitulo(){
+		return this.titulo;
+	}
+
+	public void setTitulo(String titulo){
+		this.titulo = titulo;
 	}
 }

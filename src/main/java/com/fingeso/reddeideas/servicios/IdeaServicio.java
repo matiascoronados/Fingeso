@@ -40,6 +40,7 @@ public class IdeaServicio {
         Idea think = new Idea();
         think.setNumeroVotos(idea.getNumeroVotos());
         think.setDescripcion(idea.getDescripcion());
+        think.setTitulo(idea.getTitulo());
         return this.ideaRepository.save(think);
     }
 
@@ -51,7 +52,7 @@ public class IdeaServicio {
         Idea think = this.ideaRepository.findIdeaById(idea.getId());
         think.setNumeroVotos(idea.getNumeroVotos());
         think.setDescripcion(idea.getDescripcion());
-
+        think.setTitulo(idea.getTitulo());
         return this.ideaRepository.save(think);
     }
 
