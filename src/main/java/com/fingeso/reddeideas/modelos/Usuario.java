@@ -18,6 +18,9 @@ public class Usuario {
     private String telefono;
     private String nombre;
 
+    /*@DBRef
+    private List<Ideas> ideas;*/
+    
     //GETTER AND SETTER
     public String getId() {
         return id;
