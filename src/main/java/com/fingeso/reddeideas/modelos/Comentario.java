@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import java.util.List;
 
+//import java.util.Date; ->para utilizar tipos de Date 
+
 public class Comentario{
 
 	@Id
