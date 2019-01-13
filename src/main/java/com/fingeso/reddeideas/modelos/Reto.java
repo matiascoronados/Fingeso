@@ -8,11 +8,15 @@ import java.util.List;
 public class Reto{
 
 	@Id
-	public String id;
-	public String nombre;
-	public String descripcion;
-	public String tema;
-	public int tiempo;
+	private String id;
+	private String nombre;
+	private String descripcion;
+	private String tema;
+	private int tiempo;
+
+	@JsonIgnore
+	@DBRef
+	private List<Idea> ideas;
 
 	public String getId(){
 		return this.id;
@@ -42,7 +46,7 @@ public class Reto{
 		return this.tema;
 	}
 
-	public void setTema(String Tema){
+	public void setTema(String tema){
 		this.tema = tema;
 	}
 
@@ -53,5 +57,9 @@ public class Reto{
 	public void setTiempo(int tiempo){
 		this.tiempo = tiempo;
 	}
+
+	public List<Idea> getIdeas() { return ideas; }
+
+	public void setIdeas(List<Idea> ideas) { this.ideas = ideas; }
 
 }

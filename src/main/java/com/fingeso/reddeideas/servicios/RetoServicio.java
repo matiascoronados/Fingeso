@@ -1,14 +1,16 @@
 package com.fingeso.reddeideas.servicios;
 
 import com.fingeso.reddeideas.modelos.Reto;
+import com.fingeso.reddeideas.modelos.Idea;
 import com.fingeso.reddeideas.repositorios.RetoRepository;
+import com.fingeso.reddeideas.repositorios.IdeaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8080",maxAge = 3600)
 @RestController
 @RequestMapping(value = "/retos")
 public class RetoServicio {
@@ -16,6 +18,8 @@ public class RetoServicio {
     @Autowired
     private RetoRepository retoRepository;
 
+    @Autowired
+    private IdeaRepository ideaRepository;
 
     //ENTREGA TODOS LOS USUARIOS EN LA BD
     @RequestMapping(method = RequestMethod.GET)
@@ -41,6 +45,11 @@ public class RetoServicio {
         challenge.setDescripcion(retos.getDescripcion());
         challenge.setTiempo(retos.getTiempo());
         challenge.setTema(retos.getTema());
+
+        List <Idea> listaIdeas = new ArrayList<>();
+        listaIdeas.add(null);
+        challenge.setIdeas(listaIdeas);
+
         return this.retoRepository.save(challenge);
     }
 
@@ -65,4 +74,17 @@ public class RetoServicio {
         Reto challenge = this.retoRepository.findRetoById(id);
         this.retoRepository.delete(challenge);
     }
+
+    //Agrega una idea al arreglo interno de reto.
+    @RequestMapping(value = "/{id}/addIdea", method = RequestMethod.POST)
+    @ResponseBody
+    public Reto addIdea (@PathVariable String id,@RequestBody Idea idea){
+        Idea ideaUsuario = this.ideaRepository.findIdeaById(idea.getId());
+        Reto reto = this.retoRepository.findRetoById(id);
+        List<Idea> listaIdeas = reto.getIdeas();
+        listaIdeas.add(ideaUsuario);
+        reto.setIdeas(listaIdeas);
+        return this.retoRepository.save(reto);
+    }
+
 }
