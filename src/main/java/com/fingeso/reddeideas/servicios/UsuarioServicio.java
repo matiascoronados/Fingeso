@@ -82,24 +82,6 @@ public class UsuarioServicio {
         this.usuarioRepository.delete(user);
     }
 
-    //GUARDA EN EL USUARIO LA IDEA CREADA POR EL MISMO
-    @RequestMapping(value = "/{id}/addIdea", method = RequestMethod.POST)
-    @ResponseBody
-    public Usuario addIdea(@PathVariable String id,@RequestBody Idea newIdea)
-    {
-        Usuario user = this.usuarioRepository.findUsuarioById(id);
-        System.out.println("\nA\n");
-        Idea idea = this.ideaRepository.findIdeaById(newIdea.getId());
-        System.out.println("\nB\n");
-        List<Idea> userIdeas = user.getIdeas();
-        System.out.println("\nC\n");
-        userIdeas.add(idea);
-        System.out.println("\nD\n");
-        user.setIdeas(userIdeas);
-        System.out.println("\nE\n");
-        return this.usuarioRepository.save(user);
-    }
-
     //ElIMINAR IDEA
     @RequestMapping(value = "/{id}/deleteIdea", method = RequestMethod.DELETE)
     @ResponseBody
@@ -113,4 +95,10 @@ public class UsuarioServicio {
         return this.usuarioRepository.save(user);
     }
 
+    @RequestMapping(value = "/{id}/getIdeas", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Idea> ideasUsuario(@PathVariable String id)
+    {
+        return this.ideaRepository.findIdeaByUsuario(id);
+    }
 }

@@ -69,23 +69,4 @@ public class IdeaServicio {
         this.ideaRepository.delete(think);
     }
 
-    @RequestMapping(value = "/{id}/getIdeas", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Idea> ideasUsuario(@PathVariable String id)
-    {
-        return this.ideaRepository.findIdeaByUsuario(id);
-    }
-
-
-    /*
-    //Modificar idea.
-    @RequestMapping(value = "/{id}/modIdea", method = RequestMethod.PUT)
-    @ResponseBody
-    public Idea modIdea(@PathVariable String id,@RequestBody Idea modIdea)
-    {
-        Idea oldIdea = this.ideaRepository.findIdeaById(modIdea.getId());
-        oldIdea.setTitulo(modIdea.getTitulo());
-        oldIdea.setDescripcion(modIdea.getDescripcion());
-    }
-    */
 }
