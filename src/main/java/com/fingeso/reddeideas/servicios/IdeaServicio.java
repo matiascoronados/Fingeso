@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
 
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8080",maxAge = 3600)
 @RestController
 @RequestMapping(value = "/ideas")
 public class IdeaServicio {
@@ -46,10 +47,12 @@ public class IdeaServicio {
     @ResponseBody
     public  Idea createIdea(@RequestBody Idea idea,@PathVariable String id){
         Idea think = new Idea();
-        think.setNumeroVotos(idea.getNumeroVotos());
+        Calendar fechaActual = Calendar.getInstance();
+        think.setNumeroVotos("0");
         think.setDescripcion(idea.getDescripcion());
         think.setTitulo(idea.getTitulo());
         think.setUsuario(this.usuarioRepository.findUsuarioById(id));
+        think.setfechaPublicacion(fechaActual.getTime());
 
         List <Comentario> listaComentarios = new ArrayList<>();
         listaComentarios.add(null);
@@ -99,10 +102,7 @@ public class IdeaServicio {
         return this.ideaRepository.findIdeaByUsuario(id);
     }
 
-
     //Metodos de busqueda
-
-    public List<Idea> getIdeasBy
 
 
 

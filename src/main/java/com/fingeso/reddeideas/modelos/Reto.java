@@ -8,11 +8,11 @@ import java.util.List;
 public class Reto{
 
 	@Id
-	public String id;
-	public String nombre;
-	public String descripcion;
-	public String tema;
-	public int tiempo;
+	private String id;
+	private String nombre;
+	private String descripcion;
+	private String tema;
+	private int tiempo;
 
 	public String getId(){
 		return this.id;

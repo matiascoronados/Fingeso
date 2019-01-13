@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8080",maxAge = 3600)
 @RestController
 @RequestMapping(value = "/comentarios")
 public class ComentarioServicio {
@@ -47,11 +48,13 @@ public class ComentarioServicio {
     public  Comentario createComentario(@RequestBody Comentario comentario,@PathVariable String id_idea,@PathVariable String id_usuario){
 
         Comentario comentary = new Comentario();
+        Calendar fechaActual = Calendar.getInstance();
         Idea idea = this.ideaRepository.findIdeaById(id_idea);
+        comentary.setfechaPublicacion(fechaActual.getTime());
         comentary.setTexto(comentario.getTexto());
-        comentary.setFecha(comentario.getFecha());
         comentary.setIdea(this.ideaRepository.findIdeaById(id_idea));
         comentary.setUsuario(this.usuarioRepository.findUsuarioById(id_usuario));
+
         return this.comentarioRepository.save(comentary);
     }
 
@@ -62,7 +65,6 @@ public class ComentarioServicio {
 
         Comentario comentary = this.comentarioRepository.findComentarioById(comentario.getId());
         comentary.setTexto(comentario.getTexto());
-        comentary.setFecha(comentario.getFecha());
         return this.comentarioRepository.save(comentary);
     }
 

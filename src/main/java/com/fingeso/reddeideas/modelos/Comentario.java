@@ -3,6 +3,9 @@ package com.fingeso.reddeideas.modelos;
 import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 import java.util.List;
 
 //import java.util.Date; ->para utilizar tipos de Date 
@@ -10,9 +13,8 @@ import java.util.List;
 public class Comentario{
 
 	@Id
-	public String id;
-	public String texto;
-	public String fecha;
+	private String id;
+	private String texto;
 
 	@JsonIgnore
 	@DBRef
@@ -21,6 +23,9 @@ public class Comentario{
 	@JsonIgnore
 	@DBRef
 	private Idea idea;
+
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	private Date fechaPublicacion;
 
 	public String getId(){
 		return this.id;
@@ -38,14 +43,6 @@ public class Comentario{
 		this.texto = texto;
 	}
 
-	public String getFecha(){
-		return this.fecha;
-	}
-
-	public void setFecha(String fecha){
-		this.fecha  = fecha;
-	}
-
 	public Usuario getUsuario(){
 		return this.usuario;
 	}
@@ -60,5 +57,8 @@ public class Comentario{
 
 	public void setIdea(Idea idea){ this.idea  = idea; }
 
+	public Date getfechaPublicacion() { return fechaPublicacion; }
+
+	public void setfechaPublicacion(Date fechaPublicacion) { this.fechaPublicacion = fechaPublicacion; }
 
 }
