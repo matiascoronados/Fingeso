@@ -1,7 +1,11 @@
 package com.fingeso.reddeideas.servicios;
 
 import com.fingeso.reddeideas.modelos.Comentario;
+import com.fingeso.reddeideas.modelos.Idea;
+import com.fingeso.reddeideas.modelos.Usuario;
 import com.fingeso.reddeideas.repositorios.ComentarioRepository;
+import com.fingeso.reddeideas.repositorios.IdeaRepository;
+import com.fingeso.reddeideas.repositorios.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,30 +20,38 @@ public class ComentarioServicio {
     @Autowired
     private ComentarioRepository comentarioRepository;
 
+    @Autowired
+    private IdeaRepository ideaRepository;
 
-    //ENTREGA TODOS LOS USUARIOS EN LA BD
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    //Entrega todos los comentarios realizados en la paguina
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public List<Comentario> getComentarios(){
         return this.comentarioRepository.findAll();
     }
 
-    //ENTREGA UN USUARIO EN BASE AL ID
+    //Entrega los comentarios de una idea.
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Comentario getComentario(@PathVariable String id){
+    public List<Comentario> getComentario(@PathVariable String id){
 
-        return this.comentarioRepository.findComentarioById(id);
+        return this.comentarioRepository.findComentarioByIdea(id);
     }
 
-    //CREA UN USUARIO NUEVO
-    @RequestMapping(method = RequestMethod.POST)
+    //Crea comentario dentro de idea
+    @RequestMapping(value = "/{id_idea}/{id_usuario}",method = RequestMethod.POST)
     @ResponseBody
-    public  Comentario createComentario(@RequestBody Comentario comentario){
-        System.out.println("\n\nENTREE\n\n");
+    public  Comentario createComentario(@RequestBody Comentario comentario,@PathVariable String id_idea,@PathVariable String id_usuario){
+
         Comentario comentary = new Comentario();
+        Idea idea = this.ideaRepository.findIdeaById(id_idea);
         comentary.setTexto(comentario.getTexto());
         comentary.setFecha(comentario.getFecha());
+        comentary.setIdea(this.ideaRepository.findIdeaById(id_idea));
+        comentary.setUsuario(this.usuarioRepository.findUsuarioById(id_usuario));
         return this.comentarioRepository.save(comentary);
     }
 

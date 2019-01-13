@@ -18,9 +18,11 @@ public class Idea {
 	@DBRef
 	private Usuario usuario;
 
-	public String getId(){
-		return this.id;
-	}
+	@JsonIgnore
+	@DBRef
+	private List<Comentario> listaComentarios;
+
+	public String getId(){ return this.id; }
 
 	public void setId(String id){
 		this.id = id;
@@ -50,11 +52,12 @@ public class Idea {
 		this.titulo = titulo;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getUsuario() { return usuario;
 	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+
+	public List<Comentario> getListaComentarios() { return listaComentarios;
 	}
+	public void setListaComentarios(List<Comentario> listaComentarios) { this.listaComentarios = listaComentarios; }
 
 }

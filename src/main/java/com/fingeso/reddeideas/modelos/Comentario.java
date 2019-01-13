@@ -14,6 +14,14 @@ public class Comentario{
 	public String texto;
 	public String fecha;
 
+	@JsonIgnore
+	@DBRef
+	private Usuario usuario;
+
+	@JsonIgnore
+	@DBRef
+	private Idea idea;
+
 	public String getId(){
 		return this.id;
 	}
@@ -37,4 +45,20 @@ public class Comentario{
 	public void setFecha(String fecha){
 		this.fecha  = fecha;
 	}
+
+	public Usuario getUsuario(){
+		return this.usuario;
+	}
+
+	public void setUsuario(Usuario usuario){
+		this.usuario  = usuario;
+	}
+
+	public Idea getIdea(){
+		return this.idea;
+	}
+
+	public void setIdea(Idea idea){ this.idea  = idea; }
+
+
 }

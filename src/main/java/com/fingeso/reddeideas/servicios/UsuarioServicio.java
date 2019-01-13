@@ -95,10 +95,19 @@ public class UsuarioServicio {
         return this.usuarioRepository.save(user);
     }
 
-    @RequestMapping(value = "/{id}/getIdeas", method = RequestMethod.GET)
+
+    //Agrega una idea (ya creada) a la lista de ideas del usuario
+    @RequestMapping(value = "/{id}/addIdea", method = RequestMethod.POST)
     @ResponseBody
-    public List<Idea> ideasUsuario(@PathVariable String id)
+    public Usuario addIdea(@PathVariable String id,@RequestBody Idea oldIdea)
     {
-        return this.ideaRepository.findIdeaByUsuario(id);
+        Usuario usuario = this.usuarioRepository.findUsuarioById(id);
+        List<Idea> ideasUsuario = usuario.getIdeas();
+        Idea idea = this.ideaRepository.findIdeaById(oldIdea.getId());
+        ideasUsuario.add(idea);
+        usuario.setIdeas(ideasUsuario);
+        return this.usuarioRepository.save(usuario);
     }
+
+
 }

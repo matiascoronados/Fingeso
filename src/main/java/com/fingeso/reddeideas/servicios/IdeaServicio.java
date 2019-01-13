@@ -1,8 +1,10 @@
 package com.fingeso.reddeideas.servicios;
 
 import com.fingeso.reddeideas.modelos.Usuario;
+import com.fingeso.reddeideas.modelos.Comentario;
 import com.fingeso.reddeideas.modelos.Idea;
 import com.fingeso.reddeideas.repositorios.UsuarioRepository;
+import com.fingeso.reddeideas.repositorios.ComentarioRepository;
 import com.fingeso.reddeideas.repositorios.IdeaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,9 @@ public class IdeaServicio {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ComentarioRepository comentarioRepository;
 
     //ENTREGA TODOS LOS USUARIOS EN LA BD
     @RequestMapping(method = RequestMethod.GET)
@@ -45,6 +50,11 @@ public class IdeaServicio {
         think.setDescripcion(idea.getDescripcion());
         think.setTitulo(idea.getTitulo());
         think.setUsuario(this.usuarioRepository.findUsuarioById(id));
+
+        List <Comentario> listaComentarios = new ArrayList<>();
+        listaComentarios.add(null);
+        think.setListaComentarios(listaComentarios);
+
         return this.ideaRepository.save(think);
     }
 
@@ -68,5 +78,32 @@ public class IdeaServicio {
         Idea think = this.ideaRepository.findIdeaById(id);
         this.ideaRepository.delete(think);
     }
+
+    //Agrega un comentario (ya creado) a la lista de comentarios de la idea indicada.
+    @RequestMapping(value = "/{id}/addComentario", method = RequestMethod.POST)
+    @ResponseBody
+    public Idea addComentario(@PathVariable String id,@RequestBody Comentario comentario)
+    {
+        Idea idea = this.ideaRepository.findIdeaById(id);
+        List<Comentario> listaComentarios = idea.getListaComentarios();
+        Comentario comentary = this.comentarioRepository.findComentarioById(comentario.getId());
+        listaComentarios.add(comentary);
+        idea.setListaComentarios(listaComentarios);
+        return this.ideaRepository.save(idea);
+    }
+
+    @RequestMapping(value = "/{id}/getIdeas", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Idea> ideasUsuario(@PathVariable String id)
+    {
+        return this.ideaRepository.findIdeaByUsuario(id);
+    }
+
+
+    //Metodos de busqueda
+
+    public List<Idea> getIdeasBy
+
+
 
 }
