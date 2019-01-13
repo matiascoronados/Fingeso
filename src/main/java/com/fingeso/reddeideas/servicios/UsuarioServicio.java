@@ -1,5 +1,6 @@
 package com.fingeso.reddeideas.servicios;
 
+
 import com.fingeso.reddeideas.modelos.Idea;
 import com.fingeso.reddeideas.modelos.Usuario;
 import com.fingeso.reddeideas.repositorios.UsuarioRepository;
@@ -48,6 +49,11 @@ public class UsuarioServicio {
         user.setCorreo(usuario.getCorreo());
         user.setTelefono(usuario.getTelefono());
         user.setNombre(usuario.getNombre());
+
+        List <Idea> lista = new ArrayList<>();
+        lista.add(null);
+        user.setIdeas(lista);
+
         return this.usuarioRepository.save(user);
     }
 
@@ -76,5 +82,35 @@ public class UsuarioServicio {
         this.usuarioRepository.delete(user);
     }
 
+    //GUARDA EN EL USUARIO LA IDEA CREADA POR EL MISMO
+    @RequestMapping(value = "/{id}/addIdea", method = RequestMethod.POST)
+    @ResponseBody
+    public Usuario addIdea(@PathVariable String id,@RequestBody Idea newIdea)
+    {
+        Usuario user = this.usuarioRepository.findUsuarioById(id);
+        System.out.println("\nA\n");
+        Idea idea = this.ideaRepository.findIdeaById(newIdea.getId());
+        System.out.println("\nB\n");
+        List<Idea> userIdeas = user.getIdeas();
+        System.out.println("\nC\n");
+        userIdeas.add(idea);
+        System.out.println("\nD\n");
+        user.setIdeas(userIdeas);
+        System.out.println("\nE\n");
+        return this.usuarioRepository.save(user);
+    }
+
+    //ElIMINAR IDEA
+    @RequestMapping(value = "/{id}/deleteIdea", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Usuario deleteIdea(@PathVariable String id,@RequestBody Idea oldIdea)
+    {
+        Usuario user = this.usuarioRepository.findUsuarioById(id);
+        List<Idea> userIdeas= user.getIdeas();
+        Idea repoIdea = this.ideaRepository.findIdeaById(oldIdea.getId());
+        userIdeas.remove(repoIdea);
+        user.setIdeas(userIdeas);
+        return this.usuarioRepository.save(user);
+    }
 
 }

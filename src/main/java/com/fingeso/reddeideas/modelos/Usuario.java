@@ -88,12 +88,8 @@ public class Usuario {
         this.telefono = telefono;
     }
 
-    public List<Idea> getIdeas() {
-        return ideas;
-    }
+    public List<Idea> getIdeas() { return ideas; }
 
-    public void setIdeas(List<Idea> ideas) {
-        this.ideas = ideas;
-    }
+    public void setIdeas(List<Idea> ideas) { this.ideas = ideas; }
 
 }
