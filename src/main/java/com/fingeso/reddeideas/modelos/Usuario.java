@@ -14,13 +14,15 @@ public class Usuario {
     private String rut;
     private String password;
     private String rol;
+    private String cargo;
     private String correo;
     private String telefono;
     private String nombre;
 
-    /*@DBRef
-    private List<Ideas> ideas;*/
-    
+    @JsonIgnore
+    @DBRef
+    private List<Idea> ideas;
+
     //GETTER AND SETTER
     public String getId() {
         return id;
@@ -62,6 +64,14 @@ public class Usuario {
         this.rol = rol;
     }
 
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
     public String getCorreo() {
         return correo;
     }
@@ -77,5 +87,9 @@ public class Usuario {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+    public List<Idea> getIdeas() { return ideas; }
+
+    public void setIdeas(List<Idea> ideas) { this.ideas = ideas; }
 
 }

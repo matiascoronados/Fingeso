@@ -1,5 +1,6 @@
 package com.fingeso.reddeideas.modelos;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -12,6 +13,10 @@ public class Idea {
 	public String numeroVotos;
 	public String descripcion;
 	public String titulo;
+
+	@JsonIgnore
+	@DBRef
+	private Usuario usuario;
 
 	public String getId(){
 		return this.id;
@@ -44,4 +49,12 @@ public class Idea {
 	public void setTitulo(String titulo){
 		this.titulo = titulo;
 	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 }

@@ -1,7 +1,10 @@
 package com.fingeso.reddeideas.servicios;
 
+
+import com.fingeso.reddeideas.modelos.Idea;
 import com.fingeso.reddeideas.modelos.Usuario;
 import com.fingeso.reddeideas.repositorios.UsuarioRepository;
+import com.fingeso.reddeideas.repositorios.IdeaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +19,8 @@ public class UsuarioServicio {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private IdeaRepository ideaRepository;
 
     //ENTREGA TODOS LOS USUARIOS EN LA BD
     @RequestMapping(method = RequestMethod.GET)
@@ -36,14 +41,19 @@ public class UsuarioServicio {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public  Usuario createUsuario(@RequestBody Usuario usuario){
-        System.out.println("\n\nENTREE\n\n");
         Usuario user = new Usuario();
-        user.setTelefono(usuario.getTelefono());
         user.setRut(usuario.getRut());
-        user.setRol(usuario.getRol());
         user.setPassword(usuario.getPassword());
+        user.setRol(usuario.getRol());
+        user.setCargo(usuario.getCargo());
         user.setCorreo(usuario.getCorreo());
+        user.setTelefono(usuario.getTelefono());
         user.setNombre(usuario.getNombre());
+
+        List <Idea> lista = new ArrayList<>();
+        lista.add(null);
+        user.setIdeas(lista);
+
         return this.usuarioRepository.save(user);
     }
 
@@ -53,13 +63,13 @@ public class UsuarioServicio {
     public Usuario updateUsuario(@RequestBody Usuario usuario){
 
         Usuario user = this.usuarioRepository.findUsuarioById(usuario.getId());
-        user.setNombre(usuario.getNombre());
-        user.setCorreo(usuario.getCorreo());
+        user.setRut(usuario.getRut());
         user.setPassword(usuario.getPassword());
         user.setRol(usuario.getRol());
-        user.setRut(usuario.getRut());
+        user.setCargo(usuario.getCargo());
+        user.setCorreo(usuario.getCorreo());
         user.setTelefono(usuario.getTelefono());
-
+        user.setNombre(usuario.getNombre());
         return this.usuarioRepository.save(user);
     }
 
@@ -70,5 +80,25 @@ public class UsuarioServicio {
 
         Usuario user = this.usuarioRepository.findUsuarioById(id);
         this.usuarioRepository.delete(user);
+    }
+
+    //ElIMINAR IDEA
+    @RequestMapping(value = "/{id}/deleteIdea", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Usuario deleteIdea(@PathVariable String id,@RequestBody Idea oldIdea)
+    {
+        Usuario user = this.usuarioRepository.findUsuarioById(id);
+        List<Idea> userIdeas= user.getIdeas();
+        Idea repoIdea = this.ideaRepository.findIdeaById(oldIdea.getId());
+        userIdeas.remove(repoIdea);
+        user.setIdeas(userIdeas);
+        return this.usuarioRepository.save(user);
+    }
+
+    @RequestMapping(value = "/{id}/getIdeas", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Idea> ideasUsuario(@PathVariable String id)
+    {
+        return this.ideaRepository.findIdeaByUsuario(id);
     }
 }

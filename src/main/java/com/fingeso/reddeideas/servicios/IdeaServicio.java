@@ -1,6 +1,8 @@
 package com.fingeso.reddeideas.servicios;
 
+import com.fingeso.reddeideas.modelos.Usuario;
 import com.fingeso.reddeideas.modelos.Idea;
+import com.fingeso.reddeideas.repositorios.UsuarioRepository;
 import com.fingeso.reddeideas.repositorios.IdeaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,8 @@ public class IdeaServicio {
     @Autowired
     private IdeaRepository ideaRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     //ENTREGA TODOS LOS USUARIOS EN LA BD
     @RequestMapping(method = RequestMethod.GET)
@@ -33,14 +37,14 @@ public class IdeaServicio {
     }
 
     //CREA UN USUARIO NUEVO
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}",method = RequestMethod.POST)
     @ResponseBody
-    public  Idea createIdea(@RequestBody Idea idea){
-        System.out.println("\n\nENTREE\n\n");
+    public  Idea createIdea(@RequestBody Idea idea,@PathVariable String id){
         Idea think = new Idea();
         think.setNumeroVotos(idea.getNumeroVotos());
         think.setDescripcion(idea.getDescripcion());
         think.setTitulo(idea.getTitulo());
+        think.setUsuario(this.usuarioRepository.findUsuarioById(id));
         return this.ideaRepository.save(think);
     }
 
@@ -64,4 +68,5 @@ public class IdeaServicio {
         Idea think = this.ideaRepository.findIdeaById(id);
         this.ideaRepository.delete(think);
     }
+
 }
