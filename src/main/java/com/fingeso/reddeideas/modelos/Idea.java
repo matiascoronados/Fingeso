@@ -69,4 +69,15 @@ public class Idea {
 
 	public void setfechaPublicacion(Date fechaPublicacion) { this.fechaPublicacion = fechaPublicacion; }
 
+	public int getNumeroComentarios()
+	{
+		if(listaComentarios == null)
+		{
+			return 0;
+		}
+		else {
+			return this.listaComentarios.size();
+		}
+	}
+
 }

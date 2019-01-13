@@ -7,6 +7,9 @@ import com.fingeso.reddeideas.repositorios.IdeaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +44,12 @@ public class RetoServicio {
     @ResponseBody
     public  Reto createRetos(@RequestBody Reto retos){
         Reto challenge = new Reto();
+        Calendar fechaActual = Calendar.getInstance();
         challenge.setNombre(retos.getNombre());
         challenge.setDescripcion(retos.getDescripcion());
         challenge.setTiempo(retos.getTiempo());
         challenge.setTema(retos.getTema());
+        challenge.setfechaPublicacion(fechaActual.getTime());
 
         List <Idea> listaIdeas = new ArrayList<>();
         listaIdeas.add(null);
@@ -87,4 +92,35 @@ public class RetoServicio {
         return this.retoRepository.save(reto);
     }
 
+    //Metodos de busqueda
+
+    //Busqueda por titulo
+    @RequestMapping(value = "/{nombre}/getRetoByNombre", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Reto> getRetoByNombre(@PathVariable String nombre)
+    {
+        List<Reto> listaRetos = this.retoRepository.findRetoByNombreLike(nombre);
+        return listaRetos;
+    }
+
+    //Busqueda por fecha
+    @RequestMapping(value = "/getRetoByFecha", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Reto> getRetoByFecha()
+    {
+        List<Reto> listaRetos = this.retoRepository.findAll();
+        Collections.reverse(listaRetos);
+        return listaRetos;
+    }
+
+    //Busqueda por numero de ideas
+    @RequestMapping(value = "/getRetoByIdeas", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Reto> getRetoByIdeas()
+    {
+        List<Reto> listaRetos = this.retoRepository.findAll();
+        listaRetos.sort(Comparator.comparing(Reto::getCantidadIdeas));
+        Collections.reverse(listaRetos);
+        return listaRetos;
+    }
 }

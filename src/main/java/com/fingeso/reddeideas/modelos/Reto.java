@@ -3,7 +3,10 @@ package com.fingeso.reddeideas.modelos;
 import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-import java.util.List; 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+import java.util.List;
 
 public class Reto{
 
@@ -17,6 +20,9 @@ public class Reto{
 	@JsonIgnore
 	@DBRef
 	private List<Idea> ideas;
+
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	private Date fechaPublicacion;
 
 	public String getId(){
 		return this.id;
@@ -60,6 +66,27 @@ public class Reto{
 
 	public List<Idea> getIdeas() { return ideas; }
 
-	public void setIdeas(List<Idea> ideas) { this.ideas = ideas; }
+	public void setIdeas(List<Idea> ideas) {
+		this.ideas = ideas;
+	}
+
+	public Date getfechaPublicacion() { return fechaPublicacion; }
+
+	public void setfechaPublicacion(Date fechaPublicacion) { this.fechaPublicacion = fechaPublicacion; }
+
+
+	public int getCantidadIdeas()
+	{
+		if(ideas == null)
+		{
+			return 0;
+		}
+		else
+		{
+			return this.ideas.size();
+		}
+
+	}
+
 
 }

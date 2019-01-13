@@ -9,9 +9,7 @@ import com.fingeso.reddeideas.repositorios.IdeaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Calendar;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:8080",maxAge = 3600)
 @RestController
@@ -104,6 +102,45 @@ public class IdeaServicio {
 
     //Metodos de busqueda
 
+    //Busqueda por titulo
+    @RequestMapping(value = "/{titulo}/getRetoByTitulo", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Idea> getIdeaByTitulo(@PathVariable String titulo)
+    {
+        List<Idea> listaIdea = this.ideaRepository.findIdeaByTituloLike(titulo);
+        return listaIdea;
+    }
 
+    //Busqueda por fecha
+    @RequestMapping(value = "/getIdeaByFecha", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Idea> getIdeaByFecha()
+    {
+        List<Idea> listaIdea = this.ideaRepository.findAll();
+        Collections.reverse(listaIdea);
+        return listaIdea;
+    }
+
+    //Busqueda por numero de comentarios
+    @RequestMapping(value = "/getIdeaByComentarios", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Idea> getIdeaByComentarios()
+    {
+        List<Idea> listaIdea = this.ideaRepository.findAll();
+        listaIdea.sort(Comparator.comparing(Idea::getNumeroComentarios));
+        Collections.reverse(listaIdea);
+        return listaIdea;
+    }
+
+    //Busqueda por numero de votos
+    @RequestMapping(value = "/getIdeaByVotos", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Idea> getIdeaByVotos()
+    {
+        List<Idea> listaIdea = this.ideaRepository.findAll();
+        listaIdea.sort(Comparator.comparing(Idea::getNumeroVotos));
+        Collections.reverse(listaIdea);
+        return listaIdea;
+    }
 
 }
