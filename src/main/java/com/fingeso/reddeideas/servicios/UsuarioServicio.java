@@ -44,7 +44,7 @@ public class UsuarioServicio {
         Usuario user = new Usuario();
         user.setRut(usuario.getRut());
         user.setPassword(usuario.getPassword());
-        user.setRol(usuario.getRol());
+        user.setRol("Participante");
         user.setCargo(usuario.getCargo());
         user.setCorreo(usuario.getCorreo());
         user.setTelefono(usuario.getTelefono());

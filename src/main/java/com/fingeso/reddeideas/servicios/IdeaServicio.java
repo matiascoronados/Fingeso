@@ -103,7 +103,7 @@ public class IdeaServicio {
     //Metodos de busqueda
 
     //Busqueda por titulo
-    @RequestMapping(value = "/{titulo}/getRetoByTitulo", method = RequestMethod.GET)
+    @RequestMapping(value = "/{titulo}/getIdeaByTitulo", method = RequestMethod.GET)
     @ResponseBody
     public List<Idea> getIdeaByTitulo(@PathVariable String titulo)
     {

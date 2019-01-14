@@ -1,6 +1,5 @@
 package com.fingeso.reddeideas.modelos;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.mongodb.core.mapping.DBRef;
