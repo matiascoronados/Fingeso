@@ -11,7 +11,8 @@ public class Idea {
 
 	@Id
 	private String id;
-	private String numeroVotos;
+	private int numeroVotos;
+	private int numeroComentarios;
 	private String descripcion;
 	private String titulo;
 
@@ -26,17 +27,23 @@ public class Idea {
 	@DBRef
 	private List<Comentario> listaComentarios;
 
+	public Idea()
+	{
+		this.numeroVotos = 0;
+		this.numeroComentarios = 0;
+	}
+
 	public String getId(){ return this.id; }
 
 	public void setId(String id){
 		this.id = id;
 	}
 
-	public String getNumeroVotos(){
+	public int getNumeroVotos(){
 		return this.numeroVotos;
 	}
 
-	public void setNumeroVotos(String numeroVotos){
+	public void setNumeroVotos(int numeroVotos){
 		this.numeroVotos = numeroVotos;
 	}
 
@@ -77,6 +84,10 @@ public class Idea {
 		else {
 			return this.listaComentarios.size();
 		}
+	}
+	public void setNumeroComentarios()
+	{
+		this.numeroComentarios = this.numeroComentarios + 1;
 	}
 
 }

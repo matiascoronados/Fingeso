@@ -46,7 +46,7 @@ public class IdeaServicio {
     public  Idea createIdea(@RequestBody Idea idea,@PathVariable String id){
         Idea think = new Idea();
         Calendar fechaActual = Calendar.getInstance();
-        think.setNumeroVotos("0");
+        think.setNumeroVotos(0);
         think.setDescripcion(idea.getDescripcion());
         think.setTitulo(idea.getTitulo());
         think.setUsuario(this.usuarioRepository.findUsuarioById(id));
@@ -90,6 +90,7 @@ public class IdeaServicio {
         Comentario comentary = this.comentarioRepository.findComentarioById(comentario.getId());
         listaComentarios.add(comentary);
         idea.setListaComentarios(listaComentarios);
+        idea.setNumeroComentarios();
         return this.ideaRepository.save(idea);
     }
 
