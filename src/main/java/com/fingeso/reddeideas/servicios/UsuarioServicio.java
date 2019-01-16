@@ -106,6 +106,8 @@ public class UsuarioServicio {
         Idea idea = this.ideaRepository.findIdeaById(oldIdea.getId());
         ideasUsuario.add(idea);
         usuario.setIdeas(ideasUsuario);
+        int numero = usuario.getNumeroIdeas() +1;
+        usuario.setNumeroIdeas(numero);
         return this.usuarioRepository.save(usuario);
     }
 

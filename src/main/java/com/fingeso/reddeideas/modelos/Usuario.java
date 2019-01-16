@@ -18,6 +18,7 @@ public class Usuario {
     private String correo;
     private String telefono;
     private String nombre;
+    private int numeroIdeas;
 
     @JsonIgnore
     @DBRef
@@ -99,8 +100,13 @@ public class Usuario {
             return 0;
         }
         else {
-            return this.ideas.size();
+            return numeroIdeas;
         }
+    }
+
+    public void setNumeroIdeas(int numeroIdeas)
+    {
+        this.numeroIdeas = numeroIdeas;
     }
 
 
