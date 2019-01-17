@@ -2,8 +2,10 @@ package com.fingeso.reddeideas.servicios;
 
 import com.fingeso.reddeideas.modelos.Reto;
 import com.fingeso.reddeideas.modelos.Idea;
+import com.fingeso.reddeideas.modelos.Usuario;
 import com.fingeso.reddeideas.repositorios.RetoRepository;
 import com.fingeso.reddeideas.repositorios.IdeaRepository;
+import com.fingeso.reddeideas.repositorios.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,9 @@ public class RetoServicio {
     @Autowired
     private IdeaRepository ideaRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     //ENTREGA TODOS LOS USUARIOS EN LA BD
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
@@ -40,17 +45,18 @@ public class RetoServicio {
     }
 
     //CREA UN USUARIO NUEVO
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}",method = RequestMethod.POST)
     @ResponseBody
-    public  Reto createRetos(@RequestBody Reto retos){
+    public  Reto createRetos(@PathVariable String id, @RequestBody Reto retos){
         Reto challenge = new Reto();
+        Usuario usuario = this.usuarioRepository.findUsuarioById(id);
         Calendar fechaActual = Calendar.getInstance();
         challenge.setNombre(retos.getNombre());
         challenge.setDescripcion(retos.getDescripcion());
         challenge.setTiempo(retos.getTiempo());
         challenge.setTema(retos.getTema());
         challenge.setfechaPublicacion(fechaActual.getTime());
-
+        challenge.setUsuario(usuario);
         List <Idea> listaIdeas = new ArrayList<>();
         listaIdeas.add(null);
         challenge.setIdeas(listaIdeas);
@@ -89,6 +95,8 @@ public class RetoServicio {
         List<Idea> listaIdeas = reto.getIdeas();
         listaIdeas.add(ideaUsuario);
         reto.setIdeas(listaIdeas);
+        int cantidad = reto.getCantidadIdeas() + 1;
+        reto.setCantidadIdeas(cantidad);
         return this.retoRepository.save(reto);
     }
 
@@ -100,6 +108,15 @@ public class RetoServicio {
     public List<Reto> getRetoByNombre(@PathVariable String nombre)
     {
         List<Reto> listaRetos = this.retoRepository.findRetoByNombreLike(nombre);
+        return listaRetos;
+    }
+
+    //Busqueda por tema
+    @RequestMapping(value = "/{nombre}/getRetoByTema", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Reto> getRetoByTema(@PathVariable String nombre)
+    {
+        List<Reto> listaRetos = this.retoRepository.findRetoByTemaLike(nombre);
         return listaRetos;
     }
 

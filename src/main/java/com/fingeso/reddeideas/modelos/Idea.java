@@ -27,10 +27,15 @@ public class Idea {
 	@DBRef
 	private List<Comentario> listaComentarios;
 
+	@JsonIgnore
+	@DBRef
+	private Reto reto;
+
 	public Idea()
 	{
 		this.numeroVotos = 0;
 		this.numeroComentarios = 0;
+		this.reto = null;
 	}
 
 	public String getId(){ return this.id; }
@@ -75,19 +80,18 @@ public class Idea {
 
 	public void setfechaPublicacion(Date fechaPublicacion) { this.fechaPublicacion = fechaPublicacion; }
 
-	public int getNumeroComentarios()
-	{
-		if(listaComentarios == null)
-		{
-			return 0;
-		}
-		else {
-			return this.listaComentarios.size();
-		}
+	public int getNumeroComentarios(){
+		return this.numeroComentarios;
 	}
-	public void setNumeroComentarios()
+
+	public void setNumeroComentarios(int numero)
 	{
-		this.numeroComentarios = this.numeroComentarios + 1;
+		this.numeroComentarios = numero;
 	}
+
+	public Reto getReto() { return reto;
+	}
+	public void setReto(Reto reto) { this.reto = reto; }
+
 
 }

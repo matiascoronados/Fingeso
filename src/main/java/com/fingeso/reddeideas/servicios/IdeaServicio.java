@@ -3,9 +3,11 @@ package com.fingeso.reddeideas.servicios;
 import com.fingeso.reddeideas.modelos.Usuario;
 import com.fingeso.reddeideas.modelos.Comentario;
 import com.fingeso.reddeideas.modelos.Idea;
+import com.fingeso.reddeideas.modelos.Reto;
 import com.fingeso.reddeideas.repositorios.UsuarioRepository;
 import com.fingeso.reddeideas.repositorios.ComentarioRepository;
 import com.fingeso.reddeideas.repositorios.IdeaRepository;
+import com.fingeso.reddeideas.repositorios.RetoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,9 @@ public class IdeaServicio {
 
     @Autowired
     private ComentarioRepository comentarioRepository;
+
+    @Autowired
+    private RetoRepository retoRepository;
 
     //ENTREGA TODOS LOS USUARIOS EN LA BD
     @RequestMapping(method = RequestMethod.GET)
@@ -59,6 +64,29 @@ public class IdeaServicio {
         return this.ideaRepository.save(think);
     }
 
+    //CREA UN USUARIO NUEVO
+    @RequestMapping(value = "/{id}/{idreto}",method = RequestMethod.POST)
+    @ResponseBody
+    public  Idea createIdeaforReto(@RequestBody Idea idea,@PathVariable String id,@PathVariable String idreto){
+
+        Idea think = new Idea();
+        Calendar fechaActual = Calendar.getInstance();
+        think.setNumeroVotos(0);
+        think.setDescripcion(idea.getDescripcion());
+        think.setTitulo(idea.getTitulo());
+        think.setUsuario(this.usuarioRepository.findUsuarioById(id));
+
+        think.setfechaPublicacion(fechaActual.getTime());
+
+        List <Comentario> listaComentarios = new ArrayList<>();
+        listaComentarios.add(null);
+        think.setListaComentarios(listaComentarios);
+
+        think.setReto(this.retoRepository.findRetoById(idreto));
+
+        return this.ideaRepository.save(think);
+    }
+
     //CAMBIA LOS VALORES DE LOS ATRIBUTOS DEL USUARIO
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
@@ -90,7 +118,21 @@ public class IdeaServicio {
         Comentario comentary = this.comentarioRepository.findComentarioById(comentario.getId());
         listaComentarios.add(comentary);
         idea.setListaComentarios(listaComentarios);
-        idea.setNumeroComentarios();
+        int numero = idea.getNumeroComentarios() + 1;
+
+        idea.setNumeroComentarios(numero);
+
+        return this.ideaRepository.save(idea);
+    }
+
+
+    @RequestMapping(value = "/{id}/addVoto", method = RequestMethod.POST)
+    @ResponseBody
+    public Idea addVoto(@PathVariable String id)
+    {
+        Idea idea = this.ideaRepository.findIdeaById(id);
+        int numero = idea.getNumeroVotos()+1;
+        idea.setNumeroVotos(numero);
         return this.ideaRepository.save(idea);
     }
 
@@ -143,5 +185,14 @@ public class IdeaServicio {
         Collections.reverse(listaIdea);
         return listaIdea;
     }
+
+    @RequestMapping(value = "/{id}/getIdeaByReto", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Idea> getIdeaByReto(@PathVariable String id)
+    {
+        return this.ideaRepository.findIdeaByReto(id);
+    }
+
+
 
 }

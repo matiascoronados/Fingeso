@@ -12,5 +12,6 @@ public interface IdeaRepository extends MongoRepository<Idea, String>{
     public Idea findIdeaById(String id);
     public List<Idea> findIdeaByUsuario(String id);
     public List<Idea> findIdeaByTituloLike(String nombre);
+    public List<Idea> findIdeaByReto(String id);
 
 }

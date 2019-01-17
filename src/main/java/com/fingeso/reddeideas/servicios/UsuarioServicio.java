@@ -3,8 +3,10 @@ package com.fingeso.reddeideas.servicios;
 
 import com.fingeso.reddeideas.modelos.Idea;
 import com.fingeso.reddeideas.modelos.Usuario;
+import com.fingeso.reddeideas.modelos.Comentario;
 import com.fingeso.reddeideas.repositorios.UsuarioRepository;
 import com.fingeso.reddeideas.repositorios.IdeaRepository;
+import com.fingeso.reddeideas.repositorios.ComentarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -106,10 +108,13 @@ public class UsuarioServicio {
         Idea idea = this.ideaRepository.findIdeaById(oldIdea.getId());
         ideasUsuario.add(idea);
         usuario.setIdeas(ideasUsuario);
-        int numero = usuario.getNumeroIdeas() +1;
+        int numero = usuario.getNumeroIdeas() + 1;
         usuario.setNumeroIdeas(numero);
         return this.usuarioRepository.save(usuario);
     }
+
+
+
 
 
 }

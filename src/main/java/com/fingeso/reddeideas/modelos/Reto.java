@@ -16,10 +16,16 @@ public class Reto{
 	private String descripcion;
 	private String tema;
 	private int tiempo;
+	private int cantidadIdeas;
+
 
 	@JsonIgnore
 	@DBRef
 	private List<Idea> ideas;
+
+    @JsonIgnore
+    @DBRef
+    private Usuario usuario;
 
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private Date fechaPublicacion;
@@ -87,6 +93,17 @@ public class Reto{
 		}
 
 	}
+
+	public void setCantidadIdeas(int cantidadIdeas)
+	{
+		this.cantidadIdeas = cantidadIdeas;
+	}
+
+    public Usuario getUsuario() { return this.usuario; }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
 
 }

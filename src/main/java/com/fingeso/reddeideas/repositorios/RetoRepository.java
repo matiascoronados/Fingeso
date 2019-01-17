@@ -11,4 +11,6 @@ public interface RetoRepository extends MongoRepository<Reto, String>{
 
     public Reto findRetoById(String id);
     public List<Reto> findRetoByNombreLike(String nombre);
+    public List<Reto> findRetoByTemaLike(String tema);
+
 }
