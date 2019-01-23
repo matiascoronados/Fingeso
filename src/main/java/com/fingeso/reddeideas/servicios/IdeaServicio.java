@@ -114,10 +114,6 @@ public class IdeaServicio {
     public Idea addComentario(@PathVariable String id,@RequestBody Comentario comentario)
     {
         Idea idea = this.ideaRepository.findIdeaById(id);
-        List<Comentario> listaComentarios = idea.getListaComentarios();
-        Comentario comentary = this.comentarioRepository.findComentarioById(comentario.getId());
-        listaComentarios.add(comentary);
-        idea.setListaComentarios(listaComentarios);
         int numero = idea.getNumeroComentarios() + 1;
 
         idea.setNumeroComentarios(numero);
@@ -134,6 +130,15 @@ public class IdeaServicio {
         int numero = idea.getNumeroVotos()+1;
         idea.setNumeroVotos(numero);
         return this.ideaRepository.save(idea);
+    }
+
+    @RequestMapping(value = "/{id}/getUsuario", method = RequestMethod.GET)
+    @ResponseBody
+    public Usuario getUsuario(@PathVariable String id)
+    {
+        Idea idea = this.ideaRepository.findIdeaById(id);
+        Usuario user = idea.getUsuario();
+        return this.usuarioRepository.findUsuarioById(user.getId());
     }
 
     @RequestMapping(value = "/{id}/getIdeas", method = RequestMethod.GET)
@@ -192,7 +197,6 @@ public class IdeaServicio {
     {
         return this.ideaRepository.findIdeaByReto(id);
     }
-
 
 
 }
